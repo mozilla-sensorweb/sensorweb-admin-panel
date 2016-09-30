@@ -11,7 +11,7 @@ export function logout() {
 export function userSignInRequest(userData) {
   return dispatch => {
     const authHeader = btoa('admin:' + userData.password);
-    return fetch('/api/users/auth', {
+    return fetch('/api/v1/users/auth', {
       method: 'post',
       mode: 'same-origin',
       credentials: 'same-origin',
@@ -19,7 +19,7 @@ export function userSignInRequest(userData) {
         'Authorization': 'Basic ' + authHeader
       }
     }).then(res => {
-      if (res.status !== 200) {
+      if (res.status !== 201) {
         throw res.statusText;
       }
       return res.json();
