@@ -25,19 +25,16 @@ class SignInForm extends React.Component {
       error: '',
       isLoading: true
     });
-    this.props.userSignInRequest(this.state).then(
-      () => {
-        this.setState({ isLoading: false });
-        this.context.router.push('/');
-      },
-      (error) => {
-        console.error(error);
-        this.setState({
-          error: error,
-          isLoading: false
-        });
-      }
-    );
+    this.props.userSignInRequest(this.state).then(() => {
+      this.setState({ isLoading: false });
+      this.context.router.push('/');
+    }, (error) => {
+      console.error(error);
+      this.setState({
+        error,
+        isLoading: false
+      });
+    });
   }
 
   render() {
