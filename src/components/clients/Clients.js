@@ -1,16 +1,28 @@
 import { connect }                from 'react-redux';
 import ClientDetails              from './ClientDetails';
 import ClientForm                 from './ClientForm';
+import ClientList                 from './ClientList';
 import React                      from 'react';
-import { registerClientRequest }  from '../../actions/clientActions';
+import {
+  getClientsRequest,
+  registerClientRequest,
+  removeClientRequest
+}  from '../../actions/clientActions';
 
 class Clients extends React.Component {
   render() {
-    const { lastRegisteredClient } = this.props.clients;
+    const {
+      getClientsRequest,
+      registerClientRequest,
+      removeClientRequest } = this.props;
+    const { lastRegisteredClient, clientList } = this.props.clients;
     return (
       <div className="jumbotron">
-        <ClientForm registerClientRequest={this.props.registerClientRequest} />
+        <ClientForm registerClientRequest={registerClientRequest} />
         <ClientDetails client={lastRegisteredClient}/>
+        <ClientList clients={clientList}
+                    getClientsRequest={getClientsRequest}
+                    removeClientRequest={removeClientRequest}/>
       </div>
     );
   }
@@ -18,7 +30,8 @@ class Clients extends React.Component {
 
 Clients.propTypes = {
   lastRegisteredClient: React.PropTypes.object,
-  registerClientRequest: React.PropTypes.func.isRequired
+  registerClientRequest: React.PropTypes.func.isRequired,
+  removeClientRequest: React.PropTypes.func.isRequired
 };
 
 function mapStateToProps(state) {
@@ -27,4 +40,8 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, { registerClientRequest })(Clients);
+export default connect(mapStateToProps, {
+  getClientsRequest,
+  registerClientRequest,
+  removeClientRequest
+})(Clients);

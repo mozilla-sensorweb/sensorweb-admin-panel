@@ -37,7 +37,7 @@ class ClientForm extends React.Component {
 
   render() {
     return (
-      <form onSubmit={this.onSubmit}>
+      <form className="container" onSubmit={this.onSubmit}>
         <div className="form-group">
           <label className="control-label">Client name</label>
           <input
