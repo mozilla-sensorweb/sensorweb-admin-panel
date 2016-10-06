@@ -1,9 +1,12 @@
 import { GET_CLIENTS_LIST, REGISTER_NEW_CLIENT } from '../actions/types';
 
-function getClients() {
+function getClients(sessionToken) {
   return fetch('/api/v1/clients', {
     method: 'get',
-    mode: 'cors'
+    mode: 'cors',
+    headers: {
+      'Authorization': 'Bearer ' + sessionToken
+    }
   }).then(res => {
     if (res.status !== 200 && res.status !== 304) {
       throw new Error(res.statusText);
@@ -18,8 +21,8 @@ function getClients() {
 }
 
 export function getClientsRequest() {
-  return dispatch => {
-    return getClients().then(clients => {
+  return (dispatch, getState) => {
+    return getClients(getState().auth.sessionToken).then(clients => {
       dispatch(gotClientsList(clients));
     });
   }
@@ -33,13 +36,15 @@ export function gotClientsList(clients) {
 }
 
 export function registerClientRequest(clientData) {
-  return dispatch => {
+  return (dispatch, getState) => {
     let client;
+    const sessionToken = getState().auth.sessionToken;
     return fetch('/api/v1/clients', {
       method: 'post',
       mode: 'cors',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + sessionToken
       },
       body: JSON.stringify({
         name: clientData.clientName
@@ -54,7 +59,7 @@ export function registerClientRequest(clientData) {
         throw new Error('Invalid response');
       }
       client = json;
-      return getClients();
+      return getClients(sessionToken);
     }).then(clients => {
       if (!clients || !Array.isArray(clients)) {
         throw new Error('Invalid response');
@@ -73,15 +78,19 @@ export function registeredClient(client, clients) {
 }
 
 export function removeClientRequest(clientKey) {
-  return dispatch => {
+  return (dispatch, getState) => {
+    const sessionToken = getState().auth.sessionToken;
     return fetch('/api/v1/clients/' + clientKey, {
       method: 'delete',
-      mode: 'cors'
+      mode: 'cors',
+      headers: {
+        'Authorization': 'Bearer ' + sessionToken
+      }
     }).then(res => {
       if (res.status !== 204) {
         throw new Error(res.statusText);
       }
-      return getClients();
+      return getClients(sessionToken);
     }).then(clients => {
       dispatch(gotClientsList(clients));
     });

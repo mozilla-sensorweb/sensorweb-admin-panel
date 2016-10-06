@@ -20,8 +20,9 @@ const store = createStore(
   )
 );
 
-if (localStorage.sessionToken) {
-  store.dispatch(setCurrentUser(jwtDecode(localStorage.sessionToken)));
+const sessionToken = localStorage.sessionToken;
+if (sessionToken) {
+  store.dispatch(setCurrentUser(jwtDecode(sessionToken), sessionToken));
 }
 
 render(

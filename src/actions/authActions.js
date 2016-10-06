@@ -27,15 +27,17 @@ export function userSignInRequest(userData) {
       if (!json || !json.token) {
         throw new Error('Invalid response');
       }
-      localStorage.setItem('sessionToken', json.token);
-      dispatch(setCurrentUser(jwtDecode(json.token)));
+      const sessionToken = json.token;
+      localStorage.setItem('sessionToken', sessionToken);
+      dispatch(setCurrentUser(jwtDecode(sessionToken), sessionToken));
     });
   }
 }
 
-export function setCurrentUser(user) {
+export function setCurrentUser(user, sessionToken) {
   return {
     type: SET_CURRENT_USER,
-    user
+    user,
+    sessionToken
   }
 }
