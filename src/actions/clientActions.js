@@ -1,7 +1,8 @@
-import { GET_CLIENTS_LIST, REGISTER_NEW_CLIENT } from '../actions/types';
+import { GET_CLIENTS_LIST, REGISTER_NEW_CLIENT } from './types';
+import { CLIENTS_ENDPOINT }                      from './endpoints';
 
 function getClients(sessionToken) {
-  return fetch('/api/v1/clients', {
+  return fetch(CLIENTS_ENDPOINT, {
     method: 'get',
     mode: 'cors',
     headers: {
@@ -39,7 +40,7 @@ export function registerClientRequest(clientData) {
   return (dispatch, getState) => {
     let client;
     const sessionToken = getState().auth.sessionToken;
-    return fetch('/api/v1/clients', {
+    return fetch(CLIENTS_ENDPOINT, {
       method: 'post',
       mode: 'cors',
       headers: {
@@ -80,7 +81,7 @@ export function registeredClient(client, clients) {
 export function removeClientRequest(clientKey) {
   return (dispatch, getState) => {
     const sessionToken = getState().auth.sessionToken;
-    return fetch('/api/v1/clients/' + clientKey, {
+    return fetch(CLIENTS_ENDPOINT + '/' + clientKey, {
       method: 'delete',
       mode: 'cors',
       headers: {

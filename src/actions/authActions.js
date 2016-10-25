@@ -1,5 +1,6 @@
-import jwtDecode from 'jwt-decode';
-import { SET_CURRENT_USER } from '../actions/types';
+import jwtDecode            from 'jwt-decode';
+import { SET_CURRENT_USER } from './types';
+import { AUTH_ENDPOINT }    from './endpoints';
 
 export function logout() {
   return dispatch => {
@@ -11,7 +12,7 @@ export function logout() {
 export function userSignInRequest(userData) {
   return dispatch => {
     const authHeader = btoa('admin:' + userData.password);
-    return fetch('/api/v1/users/auth', {
+    return fetch(AUTH_ENDPOINT, {
       method: 'post',
       mode: 'same-origin',
       credentials: 'same-origin',
