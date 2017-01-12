@@ -14,9 +14,11 @@ class ClientList extends React.Component {
         <table className="table">
           <thead>
             <tr>
-              {['Name', 'API key'].map(title => {
-                return <th key={title}>{title}</th>
-              })}
+              {['Name', 'API key',
+                'Auth redirect URL',
+                'Auth failure redirect URL'].map(
+                  title => <th key={title}>{title}</th>
+                )}
             </tr>
           </thead>
           <tbody>
@@ -24,6 +26,8 @@ class ClientList extends React.Component {
               return <Client key={client.key}
                              name={client.name}
                              apikey={client.key}
+                             authRedirectUrls={client.authRedirectUrls}
+                             authFailureRedirectUrls={client.authFailureRedirectUrls}
                              removeClientRequest={this.props.removeClientRequest}/>
             })}
           </tbody>

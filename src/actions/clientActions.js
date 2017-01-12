@@ -48,7 +48,9 @@ export function registerClientRequest(clientData) {
         'Authorization': 'Bearer ' + sessionToken
       },
       body: JSON.stringify({
-        name: clientData.clientName
+        name: clientData.clientName,
+        authRedirectUrls: clientData.authRedirectUrls,
+        authFailureRedirectUrls: clientData.authFailureRedirectUrls
       })
     }).then(res => {
       if (res.status !== 201) {
