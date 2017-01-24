@@ -1,3 +1,12 @@
 dd {
   word-wrap: break-word;
 }
+
+td {
+  max-width: 10rem;
+  word-wrap: break-word;
+}
+
+td p.table-redirect-url {
+  font-size: 14px;
+}

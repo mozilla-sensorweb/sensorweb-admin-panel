@@ -12,10 +12,35 @@ class Client extends React.Component {
   }
 
   render() {
+    const authRedirectUrls =
+      this.props.authRedirectUrls ? this.props.authRedirectUrls.map(url => {
+        return (
+          <p className="table-redirect-url" key={url}>
+            <a href={url}>
+              {url}
+            </a>
+          </p>
+        );
+      }) : [];
+
+    const authFailureRedirectUrls =
+      this.props.authFailureRedirectUrls ?
+      this.props.authFailureRedirectUrls.map(url => {
+        return (
+          <p className="table-redirect-url" key={url}>
+            <a href={url}>
+              {url}
+            </a>
+          </p>
+        );
+      }) : [];
+
     return (
       <tr>
         <td>{this.props.name}</td>
         <td>{this.props.apikey}</td>
+        <td>{authRedirectUrls}</td>
+        <td>{authFailureRedirectUrls}</td>
         <td><button onClick={this.onClick}>Remove</button></td>
       </tr>
     );
