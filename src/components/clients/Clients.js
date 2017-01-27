@@ -5,6 +5,7 @@ import ClientList                 from './ClientList';
 import React                      from 'react';
 import {
   getClientsRequest,
+  getPermissionsRequest,
   registerClientRequest,
   removeClientRequest
 }  from '../../actions/clientActions';
@@ -13,12 +14,21 @@ class Clients extends React.Component {
   render() {
     const {
       getClientsRequest,
+      getPermissionsRequest,
       registerClientRequest,
-      removeClientRequest } = this.props;
-    const { lastRegisteredClient, clientList } = this.props.clients;
+      removeClientRequest
+    } = this.props;
+    const {
+      lastRegisteredClient,
+      clientList,
+      permissions
+    } = this.props.clients;
+
     return (
       <div className="jumbotron">
-        <ClientForm registerClientRequest={registerClientRequest} />
+        <ClientForm registerClientRequest={registerClientRequest}
+                    getPermissionsRequest={getPermissionsRequest}
+                    permissions={permissions}/>
         <ClientDetails client={lastRegisteredClient}/>
         <ClientList clients={clientList}
                     getClientsRequest={getClientsRequest}
@@ -42,6 +52,7 @@ function mapStateToProps(state) {
 
 export default connect(mapStateToProps, {
   getClientsRequest,
+  getPermissionsRequest,
   registerClientRequest,
   removeClientRequest
 })(Clients);

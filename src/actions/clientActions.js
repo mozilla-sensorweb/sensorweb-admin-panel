@@ -1,5 +1,9 @@
-import { GET_CLIENTS_LIST, REGISTER_NEW_CLIENT } from './types';
-import { CLIENTS_ENDPOINT }                      from './endpoints';
+import {
+  GET_CLIENTS_LIST,
+  GET_PERMISSIONS,
+  REGISTER_NEW_CLIENT
+} from './types';
+import { CLIENTS_ENDPOINT, PERMISSIONS_ENDPOINT } from './endpoints';
 
 function getClients(sessionToken) {
   return fetch(CLIENTS_ENDPOINT, {
@@ -21,6 +25,27 @@ function getClients(sessionToken) {
   });
 }
 
+function getPermisions(sessionToken) {
+  return fetch(PERMISSIONS_ENDPOINT, {
+    method: 'get',
+    mode: 'cors',
+    headers: {
+      'Authorization': 'Bearer ' + sessionToken
+    }
+  }).then(res => {
+    if (res.status !== 200 && res.status !== 304) {
+      throw new Error(res.statusText);
+    }
+    return res.json();
+  }).then(response => {
+    const permissions = response.permissions;
+    if (!permissions || !Array.isArray(permissions)) {
+      throw new Error('Invalid response');
+    }
+    return permissions;
+  });
+}
+
 export function getClientsRequest() {
   return (dispatch, getState) => {
     return getClients(getState().auth.sessionToken).then(clients => {
@@ -34,6 +59,21 @@ export function gotClientsList(clients) {
     type: GET_CLIENTS_LIST,
     clients
   }
+}
+
+export function getPermissionsRequest() {
+  return (dispatch, getState) => {
+    return getPermisions(getState().auth.sessionToken).then(permissions => {
+      dispatch(gotPermissions(permissions));
+    });
+  };
+}
+
+export function gotPermissions(permissions) {
+  return {
+    type: GET_PERMISSIONS,
+    permissions
+  };
 }
 
 export function registerClientRequest(clientData) {
@@ -50,7 +90,8 @@ export function registerClientRequest(clientData) {
       body: JSON.stringify({
         name: clientData.clientName,
         authRedirectUrls: clientData.authRedirectUrls,
-        authFailureRedirectUrls: clientData.authFailureRedirectUrls
+        authFailureRedirectUrls: clientData.authFailureRedirectUrls,
+        permissions: clientData.permissions
       })
     }).then(res => {
       if (res.status !== 201) {

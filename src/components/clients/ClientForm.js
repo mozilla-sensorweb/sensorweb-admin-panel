@@ -1,26 +1,38 @@
 import React from 'react';
+import Select from 'react-select';
 
 class ClientForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
+
+    this.props.getPermissionsRequest();
+    this.initialState = {
       clientName: '',
       authRedirectUrls: [],
       authRedirectUrlsInputCount: 1,
       authFailureRedirectUrls: [],
       authFailureRedirectUrlsInputCount: 1,
+      permissions: [],
       error: '',
       isLoading: false
     };
+    this.state = this.initialState;
     this.onChange = this.onChange.bind(this);
     this.onClick = this.onClick.bind(this);
     this.onRedirectUrlChange = this.onRedirectUrlChange.bind(this);
+    this.onPermissionsChange = this.onPermissionsChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
 
   onChange(e) {
     this.setState({
       [e.target.name]: e.target.value
+    });
+  }
+
+  onPermissionsChange(permissions) {
+    this.setState({
+      'permissions': permissions.map(permission => permission.value)
     });
   }
 
@@ -45,7 +57,7 @@ class ClientForm extends React.Component {
       isLoading: true
     });
     this.props.registerClientRequest(this.state).then(() => {
-      this.setState({ isLoading: false });
+      this.setState(this.initialState);
     }, error => {
       console.error(error);
       this.setState({
@@ -74,6 +86,14 @@ class ClientForm extends React.Component {
       );
     }
 
+    const permissions = this.props.permissions.map(permission => {
+      return { value: permission, label: permission };
+    });
+
+    const selectedPermissions = this.state.permissions.map(permission => {
+      return { value: permission, label: permission };
+    });
+
     return (
       <form className="container" onSubmit={this.onSubmit}>
         <div className="form-group">
@@ -98,6 +118,15 @@ class ClientForm extends React.Component {
             </button>
             {authFailureRedirectUrls}
           </fieldset>
+          <fieldset>
+            <label className="control-label">Permissions</label>
+            <Select name="permissions"
+                    options={permissions}
+                    value={selectedPermissions}
+                    placeholder="Select permissions"
+                    onChange={this.onPermissionsChange}
+                    multi/>
+          </fieldset>
         </div>
         <div className="form-group">
           <button disabled={this.state.isLoading}
@@ -111,6 +140,8 @@ class ClientForm extends React.Component {
 }
 
 ClientForm.propTypes = {
+  permissions: React.PropTypes.array.isRequired,
+  getPermissionsRequest: React.PropTypes.func.isRequired,
   registerClientRequest: React.PropTypes.func.isRequired
 };
 

@@ -16,7 +16,8 @@ class ClientList extends React.Component {
             <tr>
               {['Name', 'API key',
                 'Auth redirect URL',
-                'Auth failure redirect URL'].map(
+                'Auth failure redirect URL',
+                'Permissions'].map(
                   title => <th key={title}>{title}</th>
                 )}
             </tr>
@@ -28,6 +29,7 @@ class ClientList extends React.Component {
                              apikey={client.key}
                              authRedirectUrls={client.authRedirectUrls}
                              authFailureRedirectUrls={client.authFailureRedirectUrls}
+                             permissions={client.permissions}
                              removeClientRequest={this.props.removeClientRequest}/>
             })}
           </tbody>

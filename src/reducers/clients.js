@@ -1,8 +1,13 @@
-import { GET_CLIENTS_LIST, REGISTER_NEW_CLIENT } from '../actions/types';
+import {
+  GET_CLIENTS_LIST,
+  GET_PERMISSIONS,
+  REGISTER_NEW_CLIENT
+} from '../actions/types';
 
 const initialState = {
   lastRegisteredClient: null,
-  clientList: []
+  clientList: [],
+  permissions: []
 };
 
 export default (state = initialState, action = {}) => {
@@ -15,6 +20,10 @@ export default (state = initialState, action = {}) => {
     case GET_CLIENTS_LIST:
       return Object.assign({}, state, {
         clientList: action.clients
+      });
+    case GET_PERMISSIONS:
+      return Object.assign({}, state, {
+        permissions: action.permissions
       });
     default:
       return state;
