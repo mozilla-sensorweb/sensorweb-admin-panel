@@ -5,3 +5,5 @@ export const GET_CLIENTS_LIST     = 'GET_CLIENTS_LIST';
 export const REGISTER_NEW_CLIENT  = 'REGISTER_NEW_CLIENT';
 
 export const SET_CURRENT_USER     = 'SET_CURRENT_USER';
+
+export const GET_PERMISSIONS      = 'GET_PERMISSIONS';

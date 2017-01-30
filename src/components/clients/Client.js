@@ -41,6 +41,7 @@ class Client extends React.Component {
         <td>{this.props.apikey}</td>
         <td>{authRedirectUrls}</td>
         <td>{authFailureRedirectUrls}</td>
+        <td>{this.props.permissions.join(', ')}</td>
         <td><button onClick={this.onClick}>Remove</button></td>
       </tr>
     );
