@@ -7,7 +7,12 @@
     "url": "git@github.com:mozilla-sensorweb/sensorweb-admin-panel.git"
   },
   "devDependencies": {
-    "react-scripts": "0.4.1"
+    "react-scripts": "0.4.1",
+    "chai": "^3.5.0",
+    "chromedriver": "^2.27.2",
+    "mocha": "^2.5.3",
+    "selenium-webdriver": "^3.0.1",
+    "wd": "^0.4.0"
   },
   "dependencies": {
     "classnames": "^2.2.5",

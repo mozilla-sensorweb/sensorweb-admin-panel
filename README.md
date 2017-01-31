@@ -19,3 +19,9 @@ npm start
 ```
 
 You browser should automatically open a tab at http://localhost:3000
+
+## Running UI tests
+
+```shell
+mocha tests/selenium/*
+```
